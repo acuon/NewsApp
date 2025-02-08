@@ -29,7 +29,7 @@ object DatabaseModule {
      */
     @Provides
     @Singleton
-    fun provideCachedNewsDao(database: NewsDatabase): NewsDao {
+    fun provideNewsDao(database: NewsDatabase): NewsDao {
         return database.getNewsDao()
     }
 
