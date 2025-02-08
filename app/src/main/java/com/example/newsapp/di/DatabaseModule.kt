@@ -18,13 +18,13 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideCachedMoviesDao(database: NewsDatabase): NewsDao {
+    fun provideCachedNewsDao(database: NewsDatabase): NewsDao {
         return database.getNewsDao()
     }
 
     @Provides
     @Singleton
-    fun provideMoviesDatabase(@ApplicationContext application: Context): NewsDatabase {
+    fun provideNewsDatabase(@ApplicationContext application: Context): NewsDatabase {
         return Room.databaseBuilder(
             application,
             NewsDatabase::class.java,
