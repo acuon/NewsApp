@@ -9,7 +9,7 @@ A modern Android application that displays news articles using the News API. Bui
 - JDK 11
 - Android SDK 24 or higher
 
-### API Configuration
+### Configuration
 1. Clone the repository:
    ```bash
    git clone https://github.com/acuon/NewsApp.git
