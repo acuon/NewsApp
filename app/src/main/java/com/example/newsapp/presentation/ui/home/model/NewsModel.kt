@@ -1,7 +1,10 @@
 package com.example.newsapp.presentation.ui.home.model
 
+import android.os.Parcelable
 import com.example.newsapp.domain.models.ArticleDto
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class NewsArticle(
     val sourceName: String?,
     val author: String?,
@@ -11,7 +14,7 @@ data class NewsArticle(
     val urlToImage: String?,
     val publishedAt: String?,
     val content: String?
-)
+) : Parcelable
 
 fun ArticleDto.toNewsArticle(): NewsArticle {
     return NewsArticle(

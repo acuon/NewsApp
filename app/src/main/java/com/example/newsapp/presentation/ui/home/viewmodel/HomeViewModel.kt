@@ -21,7 +21,7 @@ class HomeViewModel @Inject constructor(private val newsRepository: NewsReposito
         fetchTrendingNews()
     }
 
-    fun fetchTrendingNews() {
+    private fun fetchTrendingNews() {
         _trendingResponse.safeLaunch {
             newsRepository.fetchTopHeadlines("us")?.articles?.map { it.toNewsArticle() }
         }

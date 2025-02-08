@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="onBackClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="onMenuClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:theme="@style/ThemeOverlay.NewsApp.FullscreenContainer"
+        tools:context=".presentation.ui.reading.view.ReadingFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="@dimen/dp8"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/back_arrow"
+                android:layout_width="@dimen/dp0"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="ham burger"
+                android:onClick="@{onBackClick}"
+                android:src="@drawable/ic_back"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="@dimen/dp0"
+                android:layout_height="wrap_content"
+                android:text="@{title}"
+                android:textAlignment="center"
+                android:textSize="@dimen/sp20"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/menu"
+                app:layout_constraintStart_toEndOf="@id/back_arrow"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="News App" />
+
+            <ImageButton
+                android:id="@+id/menu"
+                android:layout_width="@dimen/dp0"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="false"
+                android:contentDescription="menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_hamburger" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp0"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/article_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp0"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintDimensionRatio="5:3"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@drawable/placeholder" />
+
+                <TextView
+                    android:id="@+id/article_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp12"
+                    android:textColor="@color/text_color_grey"
+                    android:textSize="@dimen/sp18"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/article_image"
+                    tools:text="Wall-street" />
+
+                <View
+                    android:id="@+id/article_source_separator"
+                    android:layout_width="@dimen/dp2"
+                    android:layout_height="@dimen/dp2"
+                    android:layout_marginStart="@dimen/dp6"
+                    android:background="@color/border_grey"
+                    app:layout_constraintBottom_toBottomOf="@id/article_source"
+                    app:layout_constraintStart_toEndOf="@id/article_source"
+                    app:layout_constraintTop_toTopOf="@id/article_source" />
+
+                <TextView
+                    android:id="@+id/article_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp6"
+                    android:layout_marginEnd="@dimen/dp16"
+                    android:textColor="@color/text_color_grey"
+                    android:textSize="@dimen/sp18"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@id/article_source_separator"
+                    app:layout_constraintTop_toTopOf="@id/article_source"
+                    tools:text="2 hours ago" />
+
+                <TextView
+                    android:id="@+id/article_heading"
+                    android:layout_width="@dimen/dp0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp12"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp20"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/article_source"
+                    tools:text="Search underway in western Alaska for plane carrying 10 people - The Associated Press" />
+
+                <TextView
+                    android:id="@+id/article_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:textColor="@color/border_grey"
+                    android:textSize="@dimen/sp16"
+                    app:layout_constraintTop_toBottomOf="@id/article_heading"
+                    tools:text="POKROVSK, UkraineIn the flat farmland and shattered mining towns surrounding this eastern Ukrainian city, the war has become mainly a contest between Russian foot soldiers and Ukrainian explosive d… [+411 chars]" />
+
+                <TextView
+                    android:id="@+id/article_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/dp16"
+                    android:layout_marginTop="@dimen/dp8"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp18"
+                    app:layout_constraintTop_toBottomOf="@id/article_description"
+                    tools:text="POKROVSK, UkraineIn the flat farmland and shattered mining towns surrounding this eastern Ukrainian city, the war has become mainly a contest between Russian foot soldiers and Ukrainian explosive d… [+411 chars]" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

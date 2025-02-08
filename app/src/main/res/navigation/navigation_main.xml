@@ -9,5 +9,28 @@
         android:id="@+id/homeFragment"
         android:name="com.example.newsapp.presentation.ui.home.view.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_readingFragment"
+            app:destination="@id/readingFragment">
+            <argument
+                android:name="article"
+                app:argType="com.example.newsapp.presentation.ui.home.model.NewsArticle" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/readingFragment"
+        android:name="com.example.newsapp.presentation.ui.reading.view.ReadingFragment"
+        android:label="ReadingFragment">
+
+        <argument
+            android:name="article"
+            app:argType="com.example.newsapp.presentation.ui.home.model.NewsArticle" />
+
+        <action
+            android:id="@+id/action_readingFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

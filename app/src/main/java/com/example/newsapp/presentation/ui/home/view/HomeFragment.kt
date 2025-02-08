@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.BuildConfig
+import com.example.newsapp.R
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.presentation.commons.Resource
 import com.example.newsapp.presentation.ui.home.model.NewsArticle
@@ -44,9 +47,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            onHamBurgerClick = View.OnClickListener {
-                showToast("hamburger clicked")
-            }
+            onHamBurgerClick = clickListener
             title = "NewsApp"
         }
         setupView()
@@ -67,20 +68,31 @@ class HomeFragment : Fragment() {
         viewModel.trendingResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
-
+                    initLoader()
                 }
 
                 is Resource.Error -> {
+                    finishLoader()
                     if (BuildConfig.DEBUG) showToast("error: ${it.message}")
                 }
 
                 is Resource.Success -> {
-                    if (BuildConfig.DEBUG) showToast("success: ${it.data?.size}")
+                    finishLoader()
                     articleAdapter.submitList(it.data)
                 }
             }
         }
     }
+
+    private val progressBar: AlertDialog? by lazy {
+        AlertDialog.Builder(requireContext(), R.style.ProgressDialog)
+            .setView(R.layout.layout_loading)
+            .setCancelable(false)
+            .create()
+    }
+
+    private fun initLoader() = progressBar?.takeIf { !it.isShowing }?.show()
+    private fun finishLoader() = progressBar?.takeIf { it.isShowing }?.dismiss()
 
     override fun onResume() {
         super.onResume()
@@ -97,13 +109,17 @@ class HomeFragment : Fragment() {
         object : NewsArticleAdapter.ArticleClickListener {
             override fun onClick(article: NewsArticle) {
                 showToast(article.title.toString())
+                val action = HomeFragmentDirections.actionHomeFragmentToReadingFragment(article)
+                findNavController().navigate(action)
             }
         }
     }
 
     private val clickListener by lazy {
         View.OnClickListener {
-
+            when (it) {
+                binding.hamBurger -> showToast("hamburger clicked")
+            }
         }
     }
 
