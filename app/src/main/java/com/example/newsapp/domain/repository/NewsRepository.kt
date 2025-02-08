@@ -5,7 +5,7 @@ import com.example.newsapp.presentation.ui.home.model.NewsArticle
 
 interface NewsRepository {
 
-    suspend fun fetchTopHeadlines(country: String = "us"): List<NewsArticle?>?
+    suspend fun fetchTopHeadlines(country: String = "us"): List<NewsArticle>?
 
     suspend fun getCachedHeadlines(): List<NewsArticle>
 

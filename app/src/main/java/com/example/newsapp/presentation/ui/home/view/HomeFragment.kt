@@ -14,7 +14,9 @@ import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.presentation.ui.home.model.NewsArticle
 import com.example.newsapp.presentation.ui.home.utils.NewsArticleAdapter
 import com.example.newsapp.presentation.ui.home.viewmodel.HomeViewModel
+import com.example.newsapp.presentation.utils.gone
 import com.example.newsapp.presentation.utils.handleResourceState
+import com.example.newsapp.presentation.utils.show
 import com.example.newsapp.presentation.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -43,6 +45,7 @@ class HomeFragment : Fragment() {
         binding.apply {
             onHamBurgerClick = clickListener
             title = "NewsApp"
+            errorView.gone()
         }
         setupView()
         observers()
@@ -71,7 +74,12 @@ class HomeFragment : Fragment() {
                 onError = { message, state ->
                     finishLoader()
                 },
+                showEmptyView = { message ->
+                    binding.errorView.show()
+                    binding.errorView.text = message
+                },
                 retryAction = {
+                    binding.errorView.gone()
                     viewModel.fetchTrendingNews()
                 }
             )

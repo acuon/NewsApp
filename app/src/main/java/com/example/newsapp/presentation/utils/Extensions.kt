@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -63,6 +64,7 @@ fun <T> Fragment.handleResourceState(
     onLoading: (() -> Unit)? = null,
     onError: ((String, Resource.Error<T>) -> Unit)? = null,
     onSuccess: ((Resource.Success<T>) -> Unit)? = null,
+    showEmptyView: ((String) -> Unit)? = null,
     showCachedDataMessage: Boolean = true,
     retryAction: (() -> Unit)? = null
 ) {
@@ -72,6 +74,10 @@ fun <T> Fragment.handleResourceState(
         }
 
         is Resource.Error -> {
+            Log.d(
+                "HandleResource",
+                "network: ${!isNetworkAvailable()}\ndata: ${state.data == null}\ncode: ${state.code}"
+            )
             val errorMessage = when {
                 !isNetworkAvailable() && state.data == null ->
                     "No internet connection. Please check your connection and try again."
@@ -87,20 +93,23 @@ fun <T> Fragment.handleResourceState(
                 BuildConfig.DEBUG -> "Error: ${state.message}"
                 else -> "Something went wrong. Please try again."
             }
-            if (!isNetworkAvailable()) {
-                showSnackBar(
-                    message = "You're offline. Try again",
-                    actionText = "Retry",
-                    action = { retryAction?.invoke() },
-                    persistent = true
-                )
-            } else {
-                showSnackBar(errorMessage)
-            }
+            val showPersistent =
+                (!isNetworkAvailable()) || (state.code == 429)
+            showSnackBar(
+                message = errorMessage,
+                actionText = if (showPersistent) "Retry" else null,
+                action = { retryAction?.invoke() },
+                persistent = showPersistent
+            )
+            if (!isNetworkAvailable() && state.data == null) showEmptyView?.invoke(errorMessage)
             onError?.invoke(errorMessage, state)
         }
 
         is Resource.Success -> {
+            Log.d(
+                "HandleResource",
+                "network: ${!isNetworkAvailable()}\ndata: ${state.data == null}\ncode: ${state.code}\nsource: ${state.source}"
+            )
             onSuccess?.invoke(state)
             if (showCachedDataMessage || state.source == DataSource.CACHE) {
                 if (!isNetworkAvailable()) {

@@ -79,7 +79,23 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp0"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:listitem="@layout/item_layout_news_article" />
+
+        <TextView
+            android:id="@+id/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp16"
+            android:layout_marginVertical="@dimen/dp8"
+            android:padding="@dimen/dp12"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            tools:text="Error View" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

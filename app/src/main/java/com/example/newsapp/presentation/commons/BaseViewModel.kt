@@ -42,18 +42,34 @@ abstract class BaseViewModel : ViewModel() {
                     saveToCache?.invoke(this, networkResult)
                     postValue(Resource.Success(networkResult, DataSource.NETWORK))
                 } catch (e: Exception) {
-                    Log.e(TAG, "Network error: ${e.message}", e)
                     if (fetchFromCache != null) {
                         try {
                             val cachedResult = fetchFromCache()
-                            postValue(createCacheResponse(cachedResult, e))
+                            when {
+                                (cachedResult is List<*> && cachedResult.isEmpty()) -> {
+                                    postValue(createError(e))
+                                    Log.e(TAG, "Cache empty, using network error", e)
+                                }
+
+                                (cachedResult == null) -> {
+                                    postValue(createError(e))
+                                    Log.e(TAG, "Cache null, using network error", e)
+                                }
+
+                                else -> {
+                                    postValue(createCacheResponse(cachedResult, e))
+                                    Log.d(TAG, "Using cached data: $cachedResult")
+                                }
+                            }
                         } catch (cacheError: Exception) {
-                            Log.e(TAG, "Cache error: ${cacheError.message}", cacheError)
                             postValue(createError(e))
+                            Log.e(TAG, "Cache error: ${cacheError.message}", cacheError)
                         }
                     } else {
                         postValue(createError(e))
+                        Log.e(TAG, "Network error: fetchFromCache == null\n ${e.message}", e)
                     }
+                    Log.e(TAG, "Network error: ${e.message}", e)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, e.message ?: e.localizedMessage, e)

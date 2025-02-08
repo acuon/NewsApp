@@ -14,9 +14,8 @@ class NewsRepositoryImpl @Inject constructor(
     private val newsApi: NewsApi,
     private val newsDao: NewsDao
 ) : NewsRepository {
-    override suspend fun fetchTopHeadlines(country: String): List<NewsArticle> {
+    override suspend fun fetchTopHeadlines(country: String): List<NewsArticle>? {
         return newsApi.fetchTopHeadlines(country)?.articles?.map { it.toNewsArticle() }
-            ?: throw Exception("Failed to fetch headlines")
     }
 
     override suspend fun getCachedHeadlines(): List<NewsArticle> {
