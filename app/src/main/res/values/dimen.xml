@@ -8,8 +8,11 @@
     <dimen name="dp6">6dp</dimen>
     <dimen name="dp8">8dp</dimen>
     <dimen name="dp12">12dp</dimen>
+    <dimen name="dp16">16dp</dimen>
     <dimen name="dp24">24dp</dimen>
     <dimen name="dp32">32dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp100">100dp</dimen>
 
     <!-- sp resources -->
     <dimen name="sp1">1sp</dimen>
@@ -18,6 +21,7 @@
     <dimen name="sp6">6sp</dimen>
     <dimen name="sp8">8sp</dimen>
     <dimen name="sp12">12sp</dimen>
+    <dimen name="sp14">14sp</dimen>
     <dimen name="sp20">20sp</dimen>
     <dimen name="sp24">24sp</dimen>
     <dimen name="sp32">32sp</dimen>

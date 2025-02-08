@@ -1,11 +1,27 @@
 package com.example.newsapp.presentation.ui.home.model
 
-import com.example.newsapp.data.remote.NewsApi
 import com.example.newsapp.domain.models.ArticleDto
-import com.example.newsapp.domain.models.NewsDto
 
-data class NewsArticle(val image: String, val title: String)
+data class NewsArticle(
+    val sourceName: String?,
+    val author: String?,
+    val title: String?,
+    val description: String?,
+    val url: String?,
+    val urlToImage: String?,
+    val publishedAt: String?,
+    val content: String?
+)
 
 fun ArticleDto.toNewsArticle(): NewsArticle {
-    return NewsArticle("", "")
+    return NewsArticle(
+        sourceName = this.source?.name,
+        author = this.author,
+        title = this.title,
+        description = this.description,
+        url = this.url,
+        urlToImage = this.urlToImage,
+        publishedAt = this.publishedAt,
+        content = this.content
+    )
 }

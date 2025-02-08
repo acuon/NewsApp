@@ -8,10 +8,19 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.newsapp.BuildConfig
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.presentation.commons.Resource
+import com.example.newsapp.presentation.ui.home.model.NewsArticle
+import com.example.newsapp.presentation.ui.home.utils.NewsArticleAdapter
 import com.example.newsapp.presentation.ui.home.viewmodel.HomeViewModel
+import com.example.newsapp.presentation.utils.addDecorator
+import com.example.newsapp.presentation.utils.createDecorator
+import com.example.newsapp.presentation.utils.dp
+import com.example.newsapp.presentation.utils.showToast
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -19,6 +28,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by activityViewModels()
+
+    @Inject
+    lateinit var articleAdapter: NewsArticleAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,12 +45,41 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             onHamBurgerClick = View.OnClickListener {
-                Toast.makeText(requireContext(), "fuck", Toast.LENGTH_SHORT).show()
+                showToast("hamburger clicked")
             }
             title = "NewsApp"
         }
-
+        setupView()
         observers()
+    }
+
+    private fun setupView() {
+        binding.apply {
+            rvArticles.apply {
+                layoutManager = LinearLayoutManager(context)
+                adapter = articleAdapter
+            }
+            articleAdapter.setOnArticleClick(articleClickListener)
+        }
+    }
+
+    private fun observers() {
+        viewModel.trendingResponse.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+
+                }
+
+                is Resource.Error -> {
+                    if (BuildConfig.DEBUG) showToast("error: ${it.message}")
+                }
+
+                is Resource.Success -> {
+                    if (BuildConfig.DEBUG) showToast("success: ${it.data?.size}")
+                    articleAdapter.submitList(it.data)
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -52,22 +93,10 @@ class HomeFragment : Fragment() {
         activity?.window?.decorView?.systemUiVisibility = 0
     }
 
-    private fun observers() {
-        viewModel.trendingResponse.observe(this) {
-            when (it) {
-                is Resource.Loading -> {
-
-                }
-
-                is Resource.Error -> {
-                    Toast.makeText(requireContext(), "error: ${it.message}", Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-                is Resource.Success -> {
-                    Toast.makeText(requireContext(), "success: ${it.data?.size}", Toast.LENGTH_SHORT)
-                        .show()
-                }
+    private val articleClickListener by lazy {
+        object : NewsArticleAdapter.ArticleClickListener {
+            override fun onClick(article: NewsArticle) {
+                showToast(article.title.toString())
             }
         }
     }

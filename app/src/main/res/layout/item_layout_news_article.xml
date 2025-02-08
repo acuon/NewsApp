@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="@dimen/dp8">
+
+        <ImageView
+            android:id="@+id/article_image"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
+            android:layout_marginVertical="@dimen/dp8"
+            android:layout_marginStart="@dimen/dp16"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder" />
+
+        <TextView
+            android:id="@+id/article_heading"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp4"
+            android:layout_marginEnd="@dimen/dp16"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp20"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/article_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Search underway in western Alaska for plane carrying 10 people - The Associated Press" />
+
+        <TextView
+            android:id="@+id/article_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp8"
+            android:textColor="@color/text_color_grey"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintStart_toEndOf="@id/article_image"
+            app:layout_constraintTop_toBottomOf="@id/article_heading"
+            tools:text="Wall-street" />
+
+        <View
+            android:id="@+id/article_source_separator"
+            android:layout_width="@dimen/dp2"
+            android:layout_height="@dimen/dp2"
+            android:layout_marginStart="@dimen/dp6"
+            android:background="@color/border_grey"
+            app:layout_constraintBottom_toBottomOf="@id/article_source"
+            app:layout_constraintStart_toEndOf="@id/article_source"
+            app:layout_constraintTop_toTopOf="@id/article_source" />
+
+        <TextView
+            android:id="@+id/article_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp6"
+            android:layout_marginEnd="@dimen/dp16"
+            android:textColor="@color/text_color_grey"
+            android:textSize="@dimen/sp14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@id/article_source_separator"
+            app:layout_constraintTop_toTopOf="@id/article_source"
+            tools:text="2 hours ago" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:layout_marginHorizontal="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp8"
+            android:background="@color/border_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/article_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
