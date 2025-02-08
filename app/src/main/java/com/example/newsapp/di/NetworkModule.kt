@@ -33,6 +33,10 @@ object NetworkModule {
         newsDao: NewsDao
     ): NewsRepository = NewsRepositoryImpl(newsApi, newsDao)
 
+    /**
+     * using baseUrl from preferences in-case of changing the baseUrl from
+     * remote configs or remote network calls to dynamically change the baseUrl
+     */
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient, prefs: SharedPrefs): Retrofit {
@@ -60,6 +64,10 @@ object NetworkModule {
         return okHttpClient.build()
     }
 
+    /**
+     * using apiKey from preferences in-case of changing the apiKey from
+     * remote configs or remote network calls to dynamically change the apiKey
+     */
     @Provides
     @Singleton
     fun provideAuthInterceptor(prefs: SharedPrefs): Interceptor {
