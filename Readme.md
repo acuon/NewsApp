@@ -10,8 +10,13 @@ A modern Android application that displays news articles using the News API. Bui
 - Android SDK 24 or higher
 
 ### API Configuration
-1. Get your API key from [News API](https://newsapi.org/register)
-2. Create or modify `local.properties` file in the root project directory and add:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/acuon/NewsApp.git
+   ```
+2. Open the project in Android Studio
+3. Get your API key from [News API](https://newsapi.org/register)
+4. Create or modify `local.properties` file in the root project directory and add:
    ```properties
    # Add these lines to your existing local.properties file
    BASE_URL=https://newsapi.org/v2/
