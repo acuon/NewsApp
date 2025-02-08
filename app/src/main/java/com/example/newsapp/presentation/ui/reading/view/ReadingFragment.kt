@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.newsapp.databinding.FragmentReadingBinding
@@ -44,17 +43,6 @@ class ReadingFragment : Fragment() {
             articleContent.text = article?.content
             articleDescription.text = article?.description
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-        activity?.window?.decorView?.systemUiVisibility = 0
     }
 
     private val clickListener by lazy {
