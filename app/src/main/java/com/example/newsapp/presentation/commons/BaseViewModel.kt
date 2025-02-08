@@ -119,6 +119,7 @@ abstract class BaseViewModel : ViewModel() {
             is java.net.UnknownHostException -> {
                 Resource.Error(
                     message = "No internet connection",
+                    code = 0,
                     throwable = throwable
                 )
             }
@@ -126,6 +127,7 @@ abstract class BaseViewModel : ViewModel() {
             is java.net.SocketTimeoutException -> {
                 Resource.Error(
                     message = "Connection timeout",
+                    code = 1,
                     throwable = throwable
                 )
             }
@@ -133,6 +135,7 @@ abstract class BaseViewModel : ViewModel() {
             else -> {
                 Resource.Error(
                     message = throwable.message ?: "Unknown error occurred",
+                    code = 2,
                     throwable = throwable
                 )
             }

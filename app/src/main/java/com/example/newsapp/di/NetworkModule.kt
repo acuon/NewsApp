@@ -34,19 +34,19 @@ object NetworkModule {
     ): NewsRepository = NewsRepositoryImpl(newsApi, newsDao)
 
     /**
-     * using baseUrl from preferences in-case of changing the baseUrl from
-     * remote configs or remote network calls to dynamically change the baseUrl
+     * Provides a Retrofit instance with a dynamically configurable base URL.
+     * The base URL is fetched from SharedPreferences, allowing it to be updated based on remote configuration or network calls.
+     * For improved security, consider storing the base URL in EncryptedSharedPreferences instead of regular SharedPreferences.
      */
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient, prefs: SharedPrefs): Retrofit {
-        val baseUrl: String = if (!prefs.baseUrl.isNullOrEmpty()) {
-            prefs.baseUrl!!
-        } else BuildConfig.BASE_URL
+        val baseUrl: String = prefs.baseUrl.takeIf { !it.isNullOrEmpty() } ?: BuildConfig.BASE_URL
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
-            .addConverterFactory(GsonConverterFactory.create()).build()
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
     }
 
     @Provides
@@ -65,15 +65,16 @@ object NetworkModule {
     }
 
     /**
-     * using apiKey from preferences in-case of changing the apiKey from
-     * remote configs or remote network calls to dynamically change the apiKey
+     * Provides an interceptor that adds an Authorization header with a dynamically configurable API key.
+     * The API key is retrieved from SharedPreferences, allowing it to be updated based on remote configurations or network calls.
+     * For improved security, consider storing the base URL in EncryptedSharedPreferences instead of regular SharedPreferences.
+     * If the API key is not found in SharedPreferences, the default API key from BuildConfig is used.
      */
     @Provides
     @Singleton
     fun provideAuthInterceptor(prefs: SharedPrefs): Interceptor {
         return Interceptor { chain ->
-            val token: String =
-                if (!prefs.apiKey.isNullOrEmpty()) prefs.apiKey!! else BuildConfig.API_KEY
+            val token: String = prefs.apiKey.takeIf { !it.isNullOrEmpty() } ?: BuildConfig.API_KEY
             val requestBuilder = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer $token")
                 .build()
