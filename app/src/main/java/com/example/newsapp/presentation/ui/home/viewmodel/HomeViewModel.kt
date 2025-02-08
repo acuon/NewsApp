@@ -6,7 +6,6 @@ import com.example.newsapp.domain.repository.NewsRepository
 import com.example.newsapp.presentation.commons.BaseViewModel
 import com.example.newsapp.presentation.commons.Resource
 import com.example.newsapp.presentation.ui.home.model.NewsArticle
-import com.example.newsapp.presentation.ui.home.model.toNewsArticle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,9 +20,20 @@ class HomeViewModel @Inject constructor(private val newsRepository: NewsReposito
         fetchTrendingNews()
     }
 
-    private fun fetchTrendingNews() {
-        _trendingResponse.safeLaunch {
-            newsRepository.fetchTopHeadlines("us")?.articles?.map { it.toNewsArticle() }
-        }
+    fun fetchTrendingNews() {
+        _trendingResponse.safeLaunch(
+            fetchFromNetwork = {
+                newsRepository.fetchTopHeadlines("us")
+            },
+            fetchFromCache = {
+                newsRepository.getCachedHeadlines()
+            },
+            saveToCache = { articles ->
+                articles?.let { newsRepository.saveHeadlines(it.filterNotNull()) }
+            },
+            clearCache = {
+                newsRepository.clearHeadlines()
+            }
+        )
     }
 }

@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -60,24 +59,27 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
     // navigation
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
     // hilt
-    implementation("com.google.dagger:hilt-android:2.49")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    kapt("com.google.dagger:hilt-android-compiler:2.49")
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
     // gson
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(libs.gson)
     // okhttp
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation(libs.logging.interceptor)
     // retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     // glide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
-    kapt("com.github.bumptech.glide:compiler:4.12.0")
+    implementation(libs.glide)
+    kapt(libs.compiler)
+    // room database
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

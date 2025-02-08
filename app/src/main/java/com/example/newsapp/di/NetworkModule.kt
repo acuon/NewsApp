@@ -1,6 +1,7 @@
 package com.example.newsapp.di
 
 import com.example.newsapp.BuildConfig
+import com.example.newsapp.data.local.NewsDao
 import com.example.newsapp.data.pref.SharedPrefs
 import com.example.newsapp.data.remote.NewsApi
 import com.example.newsapp.data.repository.NewsRepositoryImpl
@@ -27,7 +28,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNewsRepo(newsApi: NewsApi): NewsRepository = NewsRepositoryImpl(newsApi)
+    fun provideNewsRepo(
+        newsApi: NewsApi,
+        newsDao: NewsDao
+    ): NewsRepository = NewsRepositoryImpl(newsApi, newsDao)
 
     @Provides
     @Singleton
